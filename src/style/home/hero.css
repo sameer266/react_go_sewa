@@ -1,0 +1,455 @@
+.hero-section {
+    position: relative;
+    width: 100%;
+    height: 85vh;
+    min-height: 700px;
+    overflow: visible !important; /* Changed from hidden to visible */
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.hero-section .hero-background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    overflow: hidden; /* Keep the background contained */
+}
+
+.hero-section .hero-background::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.6));
+    z-index: 1;
+}
+
+.hero-section .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.hero-section .hero-content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    overflow: visible !important; /* Ensure content can overflow */
+}
+
+.hero-section .hero-heading {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.hero-section .hero-heading h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    letter-spacing: -0.5px;
+}
+
+.hero-section .hero-heading p {
+    font-size: 1.25rem;
+    opacity: 0.9;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.hero-section .search-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 900px;
+    padding: 1.5rem;
+    color: #333;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    position: relative;
+    overflow: visible !important;
+    z-index: 10;
+}
+
+.hero-section .search-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.hero-section .search-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+}
+
+.hero-section .search-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    position: relative;
+    overflow: visible !important;
+    z-index: 100; /* General z-index for search fields */
+}
+
+/* Special z-index for date field to be higher than others */
+.hero-section .search-field:nth-child(3) {
+    z-index: 999;
+}
+
+.hero-section .search-field label {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.hero-section .input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.hero-section .input-wrapper.date-wrapper {
+    position: relative;
+    z-index: inherit;
+}
+
+.hero-section .input-icon {
+    position: absolute;
+    left: 1rem;
+    color: #666;
+    width: 18px;
+    height: 18px;
+    z-index: 5;
+    pointer-events: none;
+}
+
+.hero-section .input-wrapper input {
+    width: 100%;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Removed opacity transition */
+    background-color: white;
+}
+
+.hero-section .date-picker {
+    width: 100% !important;
+    padding: 0.75rem 1rem 0.75rem 2.5rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease; /* Removed opacity transition */
+    background-color: white;
+    cursor: pointer;
+}
+
+.hero-section .nepali-datepicker {
+    width: 100%;
+    position: relative;
+    z-index: 300;
+}
+
+.hero-section .input-wrapper input:focus,
+.hero-section .date-picker:focus {
+    border-color: #4a6fff;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(74, 111, 255, 0.15);
+}
+
+.hero-section .search-button {
+    margin: auto;
+    width: 60%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    background-color: #4a6fff;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease; /* No fade */
+    margin-top: 0.5rem;
+    position: relative;
+    z-index: 50; /* Lower z-index than date picker */
+}
+
+.hero-section .search-button:hover {
+    background-color: #3355dd;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(74, 111, 255, 0.25);
+}
+
+.hero-section .button-icon {
+    width: 18px;
+    height: 18px;
+}
+
+/* Nepali Datepicker Custom Styling */
+.hero-section .nepali-datepicker-wrapper {
+    width: 100%;
+    position: static; /* Changed from relative to static */
+}
+
+/* Target the calendar container directly */
+.hero-section .ndp-nepali-calendar,
+.hero-section .nepali-datepicker-calendar,
+.hero-section .calendar-wrapper,
+.hero-section .nepali-datepicker-wrapper .calendar-wrapper {
+    /* Essential positioning */
+    position: absolute !important;
+    z-index: 10000 !important;
+    
+    /* Styling */
+    background-color: white !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15) !important;
+    border-radius: 8px !important;
+    border: 1px solid #eaeaea !important;
+    
+    /* Placement */
+    margin-top: 5px !important;
+    
+    /* Ensure visibility */
+    visibility: visible !important;
+    opacity: 1 !important; /* No fade */
+    display: block !important;
+    
+    /* Prevent clipping */
+    transform: none !important;
+    top: 100% !important;
+    left: 0 !important;
+    
+    /* Size constraints */
+    min-width: 280px !important;
+    width: 100% !important;
+    max-width: 320px !important;
+}
+
+/* Headers and controls within the calendar */
+.hero-section .ndp-header,
+.hero-section .nepali-datepicker-wrapper .calendar-header {
+    background-color: #4a6fff !important;
+    color: white !important;
+    padding: 0.75rem !important;
+    text-align: center !important;
+    font-weight: 600 !important;
+    border-top-left-radius: 8px !important;
+    border-top-right-radius: 8px !important;
+}
+
+/* Calendar navigation buttons */
+.hero-section .ndp-prev,
+.hero-section .ndp-next,
+.hero-section .nepali-datepicker-wrapper .prev-btn,
+.hero-section .nepali-datepicker-wrapper .next-btn {
+    background-color: transparent !important;
+    color: white !important;
+    border: none !important;
+    font-size: 1.25rem !important;
+    cursor: pointer !important;
+    padding: 0.25rem 0.5rem !important;
+    transition: transform 0.2s ease !important;
+}
+
+.hero-section .ndp-prev:hover,
+.hero-section .ndp-next:hover,
+.hero-section .nepali-datepicker-wrapper .prev-btn:hover,
+.hero-section .nepali-datepicker-wrapper .next-btn:hover {
+    transform: scale(1.1) !important;
+}
+
+/* Calendar body/content */
+.hero-section .ndp-body,
+.hero-section .nepali-datepicker-wrapper .calendar-body {
+    padding: 0.75rem !important;
+    background-color: white !important;
+}
+
+/* Calendar table */
+.hero-section .ndp-body table,
+.hero-section .nepali-datepicker-wrapper .calendar-body table {
+    width: 100% !important;
+    border-collapse: collapse !important;
+}
+
+/* Calendar headers */
+.hero-section .ndp-body th,
+.hero-section .nepali-datepicker-wrapper .calendar-body th {
+    font-weight: 600 !important;
+    color: #555 !important;
+    padding: 0.5rem !important;
+    text-align: center !important;
+    font-size: 0.875rem !important;
+}
+
+/* Calendar cells */
+.hero-section .ndp-body td,
+.hero-section .nepali-datepicker-wrapper .calendar-body td {
+    text-align: center !important;
+    padding: 0.5rem !important;
+    cursor: pointer !important;
+    border-radius: 4px !important;
+    transition: background 0.2s ease, color 0.2s ease !important; /* No opacity fade */
+    font-size: 0.9rem !important;
+}
+
+/* Hover state for calendar days */
+.hero-section .ndp-body td:hover,
+.hero-section .nepali-datepicker-wrapper .calendar-body td:hover {
+    background: rgba(74, 111, 255, 0.1) !important;
+}
+
+/* Current day styling */
+.hero-section .ndp-selected,
+.hero-section .ndp-current,
+.hero-section .nepali-datepicker-wrapper .current-day {
+    background-color: #4a6fff !important;
+    color: white !important;
+    font-weight: bold !important;
+}
+
+/* Selected day styling */
+.hero-section .ndp-selected,
+.hero-section .nepali-datepicker-wrapper .selected-day {
+    background-color: rgba(74, 111, 255, 0.2) !important;
+    border: 1px solid #4a6fff !important;
+    font-weight: bold !important;
+}
+
+/* Date Display Content */
+.hero-section .date-display-content {
+    margin-top: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    color: #333;
+    font-size: 0.9rem;
+}
+
+/* Important: Fix for containers that might clip the datepicker */
+body, html, #root, main, .app {
+    overflow-x: hidden;
+    overflow-y: visible !important;
+}
+
+/* Make sure the parent containers don't clip the date picker */
+.container, .wrapper, section, div {
+    overflow: visible !important;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 992px) {
+    .hero-section .search-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-section .hero-heading h1 {
+        font-size: 2.5rem;
+    }
+    
+    /* Adjust date picker position on tablet */
+    .hero-section .ndp-nepali-calendar,
+    .hero-section .nepali-datepicker-calendar {
+        max-width: 280px !important;
+    }
+    
+    /* On tablet, make sure date picker doesn't go off screen */
+    .hero-section .search-field:nth-child(3) .ndp-nepali-calendar,
+    .hero-section .search-field:nth-child(3) .nepali-datepicker-calendar {
+        left: auto !important;
+        right: 0 !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .hero-section {
+        height: auto;
+        min-height: 650px;
+        padding: 4rem 0;
+    }
+
+    .hero-section .search-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .hero-section .search-card {
+        width: 90%;
+        margin: auto;
+    }
+
+    .hero-section .hero-heading h1 {
+        font-size: 2rem;
+    }
+
+    .hero-section .hero-heading p {
+        font-size: 1rem;
+    }
+    
+    /* All search fields have same z-index on mobile */
+    .hero-section .search-field {
+        z-index: 200;
+    }
+    
+    /* Specific z-index for the date field */
+    .hero-section .search-field:nth-child(3) {
+        z-index: 999;
+    }
+    
+    /* Calendar position adjustments for mobile */
+    .hero-section .ndp-nepali-calendar,
+    .hero-section .nepali-datepicker-calendar {
+        left: 0 !important;
+        right: 0 !important;
+        margin-left: auto !important;
+        margin-right: auto !important;
+        max-width: 90% !important;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-section {
+        min-height: 700px;
+        text-align: center;
+    }
+
+    .hero-section .hero-heading {
+        margin-bottom: 2rem;
+    }
+
+    .hero-section .hero-heading h1 {
+        font-size: 1.75rem;
+    }
+
+    .hero-section .search-card {
+        padding: 1.25rem;
+        width: 90%;
+        margin: auto;
+    }
+
+    .hero-section .search-button {
+        width: 100%;
+    }
+}

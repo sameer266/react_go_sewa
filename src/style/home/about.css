@@ -1,0 +1,466 @@
+/* about.css */
+/* Main Container */
+.about-section {
+    width: 100%;
+    overflow-x: hidden;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Hero Section */
+.about-section .about-hero {
+    height: 50vh;
+    min-height: 400px;
+    background: linear-gradient(rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.8)), url('../../assets/home-image/bus.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.about-section .about-hero-content {
+    max-width: 800px;
+    padding: 0 20px;
+    z-index: 1;
+}
+
+.about-section .about-hero-content h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.about-section .about-hero-content .tagline {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto;
+    opacity: 0.9;
+}
+
+/* About Container */
+.about-section .about-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+/* Intro Section */
+.about-section .about-intro {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.about-section .about-intro-content {
+    flex: 1;
+}
+
+.about-section .about-intro-content h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 20px;
+}
+
+.about-section .about-intro-content p {
+    color: #64748b;
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+}
+
+.about-section .intro-stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.about-section .stat-item {
+    text-align: center;
+}
+
+.about-section .stat-number {
+    display: block;
+    font-size: 2rem;
+    font-weight: 700;
+    color: #15803d;
+}
+
+.about-section .stat-label {
+    font-size: 0.9rem;
+    color: #64748b;
+}
+
+.about-section .about-intro-image {
+    flex: 1;
+}
+
+.about-section .about-intro-image img {
+    width: 100%;
+    border-radius: 12px;
+   
+}
+
+/* Values Section */
+.about-section .about-values {
+    margin-bottom: 60px;
+}
+
+.about-section .about-values h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about-section .values-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.about-section .value-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.about-section .value-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.1);
+}
+
+.about-section .value-icon {
+    font-size: 2.5rem;
+    color: #15803d;
+    margin-bottom: 20px;
+}
+
+.about-section .value-card h3 {
+    font-size: 1.3rem;
+    color: #1e293b;
+    margin-bottom: 15px;
+}
+
+.about-section .value-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* Milestones Section */
+.about-section .about-milestones {
+    margin-bottom: 60px;
+}
+
+.about-section .about-milestones h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.about-section .timeline {
+    position: relative;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-section .timeline-item {
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.about-section .timeline-item.left {
+    text-align: right;
+}
+
+.about-section .timeline-item.right {
+    text-align: left;
+}
+
+.about-section .timeline-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.about-section .timeline-year {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #15803d;
+    margin-bottom: 10px;
+}
+
+.about-section .timeline-content h3 {
+    font-size: 1.25rem;
+    color: #1e293b;
+    margin-bottom: 10px;
+}
+
+.about-section .timeline-content p {
+    color: #64748b;
+}
+
+/* Team Section */
+.about-section .about-team {
+    margin-bottom: 60px;
+}
+
+.about-section .about-team h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.about-section .team-intro {
+    text-align: center;
+    color: #64748b;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+}
+
+.about-section .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+}
+
+.about-section .team-member {
+    background-color: white;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.about-section .member-image img {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    margin-bottom: 15px;
+}
+
+.about-section .team-member h3 {
+    font-size: 1.25rem;
+    color: #1e293b;
+    margin-bottom: 5px;
+}
+
+.about-section .team-member h4 {
+    font-size: 1rem;
+    color: #15803d;
+    margin-bottom: 10px;
+}
+
+.about-section .team-member p {
+    color: #64748b;
+}
+
+/* Achievements Section */
+.about-section .about-achievements {
+    display: flex;
+    gap: 40px;
+    margin-bottom: 60px;
+}
+
+.about-section .achievements-content {
+    flex: 1;
+}
+
+.about-section .achievements-content h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 20px;
+}
+
+.about-section .achievements-list {
+    list-style: none;
+    padding: 0;
+}
+
+.about-section .achievements-list li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    color: #64748b;
+}
+
+.about-section .achievement-icon {
+    color: #15803d;
+    font-size: 1.5rem;
+}
+
+.about-section .achievements-image {
+    flex: 1;
+}
+
+.about-section .achievements-image img {
+    width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Mission and Vision Section */
+.about-section .about-mission {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 60px;
+}
+
+.about-section .mission-card,
+.about-section .vision-card {
+    background-color: white;
+    padding: 30px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.about-section .mission-icon,
+.about-section .vision-icon {
+    font-size: 2.5rem;
+    color: #15803d;
+    margin-bottom: 20px;
+}
+
+.about-section .mission-card h2,
+.about-section .vision-card h2 {
+    font-size: 1.5rem;
+    color: #1e293b;
+    margin-bottom: 15px;
+}
+
+.about-section .mission-card p,
+.about-section .vision-card p {
+    color: #64748b;
+    line-height: 1.6;
+}
+
+/* CTA Section */
+.about-section .about-cta {
+    text-align: center;
+    padding: 60px 20px;
+    background-color: #f8fafc;
+}
+
+.about-section .about-cta h2 {
+    font-size: 2rem;
+    color: #1e293b;
+    margin-bottom: 20px;
+}
+
+.about-section .about-cta p {
+    font-size: 1.1rem;
+    color: #64748b;
+    margin-bottom: 30px;
+}
+
+.about-section .cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.about-section .book-now-btn {
+    padding: 12px 24px;
+    background-color: #15803d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.about-section .book-now-btn:hover {
+    background-color: #166534;
+    transform: translateY(-2px);
+}
+
+.about-section .contact-btn {
+    padding: 12px 24px;
+    background-color: #64748b;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.about-section .contact-btn:hover {
+    background-color: #475569;
+    transform: translateY(-2px);
+}
+
+/* Responsive Adjustments */
+@media (max-width: 992px) {
+    .about-section .about-intro {
+        flex-direction: column;
+    }
+
+    .about-section .intro-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .about-section .about-achievements {
+        flex-direction: column;
+    }
+
+    .about-section .about-mission {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .about-section .about-hero-content h1 {
+        font-size: 2rem;
+    }
+
+    .about-section .about-hero-content .tagline {
+        font-size: 1rem;
+    }
+
+    .about-section .about-intro-content h2,
+    .about-section .about-values h2,
+    .about-section .about-milestones h2,
+    .about-section .about-team h2,
+    .about-section .achievements-content h2,
+    .about-section .about-cta h2 {
+        font-size: 1.8rem;
+    }
+
+    .about-section .timeline-item {
+        text-align: center;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-section .about-hero-content h1 {
+        font-size: 1.8rem;
+    }
+
+    .about-section .intro-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .about-section .team-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .about-section .cta-buttons {
+        flex-direction: column;
+    }
+}
