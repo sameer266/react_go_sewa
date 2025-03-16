@@ -274,7 +274,7 @@ export default function RoutePage() {
 
       {/* Popular Routes Section */}
       <div className="popular-routes-container">
-        <h2 className="section-title" data-aos="fade-up">Popular Routes</h2>
+        <h2 className="section-title" data-aos="fade-up">Today Routes</h2>
         <div className="popular-routes">
           {popularRoutes.slice(0, 4).map((route, index) => (
             <div 

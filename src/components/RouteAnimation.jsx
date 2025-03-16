@@ -93,7 +93,7 @@ const RouteAnimation = () => {
       
       <div className="mt-6 text-center">
         <button className="bg-gradient-to-r from-yellow-500 to-yellow-600 text-white font-bold py-3 px-8 rounded-full shadow-lg hover:from-yellow-600 hover:to-yellow-700 transition-all transform hover:-translate-y-1">
-          Book Your Ticket Now
+          Ready To Go
         </button>
       </div>
     </div>

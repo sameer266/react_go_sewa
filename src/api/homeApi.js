@@ -71,6 +71,22 @@ const AllRoutesApi=async ()=>{
     }
 }
 
+const FilterSchedule = async (source, destination, date) => {
+    try {
+        const response = await axios.get(`${Base_URL}api/filter_schedule/`, {
+            params: {
+                source: source,
+                destination: destination,
+                departure_time: date
+            }
+        });
+        return response.data;
+    } catch (error) {
+        console.error("Error in Filtering schedule:", error.response?.data || error.message);
+        return { success: false, error: error.response?.data?.error || "Unknown error" };
+    }
+};
+
 const AllScheduleApi= async ()=>{
     try {
         const response = await axios.get(`${Base_URL}api/all_schedule/`)
@@ -91,6 +107,18 @@ const PopularRoutesApi= async ()=>{
     }
 }
 
+const AllReviewsApi = async ()=>{
+    try {
+        const response = await axios.get(`${Base_URL}api/all_reviews/`)
+        return response.data
+    } catch (error) {
+        console.log("error in fetching revews data ",error.response.data)
+        
+    }
+}
+
+
+
 export   {
 
     // landing page
@@ -98,7 +126,9 @@ export   {
     LogoutApi,
     ResgisterApi,
     AllRoutesApi,
+    FilterSchedule,
     AllScheduleApi,
-    PopularRoutesApi
+    PopularRoutesApi,
+    AllReviewsApi,
 
     };

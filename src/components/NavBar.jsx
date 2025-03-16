@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useLocation,useNavigate } from 'react-router-dom';
 import { Link } from 'react-router-dom';
-import { Bus, LogIn, Book, Menu, X, Phone, CircleUserRound, LogOut } from 'lucide-react'; 
+import { Bus, LogIn, Book, Menu, X, Phone, CircleUserRound, LogOut ,Route} from 'lucide-react'; 
 import logout from '../auth/authSlice'
 import '../style/home/componentCss/navbar.css';
 
@@ -105,9 +105,11 @@ export default function Navbar() {
             </Link>
           )}
 
-          <button className="book-now">
-            <Book className="icon" /> Book Now
-          </button>
+<Link to="/all-routes">
+<button className="book-now">
+              <Route className="icon" /> All Routes
+            </button>
+            </Link>
         </div>
 
         {/* Mobile Menu Toggle */}
@@ -147,9 +149,12 @@ export default function Navbar() {
               </Link>
             )}
 
-            <button className="book-now">
-              <Book className="icon" /> Book Now
+<Link to="/all-routes">
+<button className="book-now">
+              <Route className="icon" /> All Routes
             </button>
+            </Link>
+    
           </nav>
         )}
       </div>

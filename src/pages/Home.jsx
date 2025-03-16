@@ -13,7 +13,7 @@ function Home() {
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsLoading(false); // Hide loader after 2 seconds
-    }, 2000); // Adjust this delay as needed
+    }, 1500); // Adjust this delay as needed
 
     // Cleanup timeout on unmount
     return () => clearTimeout(timer);

@@ -11,6 +11,8 @@ import RoutePage from "./pages/Route";
 import Service from "./pages/Service";
 import LoginPage from "./pages/Login";
 import Dashboard from "./pages/AdminDashboard/Dashboard";
+import AllRoutes from "./pages/AllRoutes";
+import Booking from "./pages/Booking";
 
 
 
@@ -38,6 +40,9 @@ function App() {
         <Route path="/routes" element={<RoutePage/>}/>
         <Route path="/services" element={<Service/>}/>
         <Route path="sign-in"  element={<LoginPage/>}/>
+
+        <Route path="/all-routes" element={<AllRoutes/>}/>
+        <Route path="/booking" element={<Booking/>}/>
 
         {/* ---- AdminDashboard ---- */}
         <Route path="/admin-dashboard" element={<Dashboard/>}/>

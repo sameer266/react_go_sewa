@@ -1,84 +1,115 @@
-// components/Testimonials.jsx
-import React, { useEffect } from 'react';
-import { Star } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { FaBus } from 'react-icons/fa';
+import { AllReviewsApi } from '../../api/homeApi'; // Assuming AllReviewsApi is exported from homeApi.js
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
 import '../../style/home/testimonial.css'; // Import the CSS file
 
-export default function Testimonials() {
-  const testimonials = [
-    {
-      name: "Rajesh Sharma",
-      location: "Kathmandu",
-      rating: 5,
-      comment:
-        "Go Sewa made my travel planning so much easier. The booking process was smooth and the bus was comfortable.",
-    },
-    {
-      name: "Sunita Rai",
-      location: "Pokhara",
-      rating: 5,
-      comment:
-        "I've been using Go Sewa for all my bus travels. Their customer service is excellent and the prices are reasonable.",
-    },
-    {
-      name: "Anil Gurung",
-      location: "Chitwan",
-      rating: 5,
-      comment:
-        "The buses are always on time, and the staff is very helpful. Highly recommend Go Sewa for hassle-free travel.",
-    },
-    {
-      name: "Priya Thapa",
-      location: "Lumbini",
-      rating: 5,
-      comment:
-        "Affordable prices and a great selection of routes. Go Sewa is my go-to for bus bookings!",
-    },
-  ];
+import { FaStar, FaStarHalfAlt, FaRegStar } from 'react-icons/fa'; // Import star icons
 
-  // Initialize AOS for animations
+export default function Reviews() {
+  const [reviews, setReviews] = useState([]); // State to hold fetched reviews
+  const [loading, setLoading] = useState(true); // Loading state for fetching data
+  const [error, setError] = useState(null); // Error state to handle any errors during fetching
+
+  // Fetch reviews when the component mounts
   useEffect(() => {
     AOS.init({
-      duration: 800,
-      once: true,
+      duration: 800, // Animation duration in milliseconds
+      once: true, // Animate only once on scroll
     });
+
+    // Fetch data from the API
+    const fetchReviews = async () => {
+      try {
+        const response = await AllReviewsApi(); // Make the API call
+        if (response?.success) {
+          setReviews(response.data); // Set the fetched reviews to state
+        } else {
+          setError("Failed to fetch reviews."); // Set error if no data returned
+        }
+      } catch (err) {
+        setError("Error fetching reviews."); // Handle any other errors
+      } finally {
+        setLoading(false); // Set loading to false once the request is done
+      }
+    };
+
+    fetchReviews(); // Call the function to fetch reviews
   }, []);
 
+  // If the data is still being fetched
+  if (loading) {
+    return <div>Loading reviews...</div>;
+  }
+
+  // If there was an error during fetching
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  // Function to render the stars for rating
+  const renderStars = (rating) => {
+    const fullStars = Math.floor(rating);
+    const halfStars = rating % 1 !== 0;
+    const emptyStars = 5 - Math.ceil(rating);
+
+    return (
+      <>
+        {Array(fullStars).fill(<FaStar className="star-icon" />)}
+        {halfStars && <FaStarHalfAlt className="star-icon" />}
+        {Array(emptyStars).fill(<FaRegStar className="star-icon" />)}
+      </>
+    );
+  };
+
   return (
-    <section className="testimonials-section">
+    <section className="reviews">
       <div className="container">
         {/* Heading */}
-        <div className="section-heading" data-aos="fade-down">
-          <h2>What Our Customers Say</h2>
-          <p>Hear from travelers who love Go Sewa</p>
+        <div className="section-heading" data-aos="fade-down" data-aos-delay="100">
+          <h2>Customer Reviews</h2>
+          <p>What our customers have to say</p>
         </div>
 
-        {/* Testimonials Grid */}
-        <div className="testimonials-grid">
-          {testimonials.map((testimonial, index) => (
+        {/* Reviews Grid */}
+        <div className="reviews-grid">
+          {reviews.map((review, index) => (
             <div
               key={index}
-              className="testimonial-card"
+              className="review-card"
               data-aos="fade-up"
-              data-aos-delay={`${index * 100}`} // Staggered animation
+              data-aos-delay={`${200 + index * 100}`} // Staggered animation for each card
             >
+              {/* Bus Type */}
+              <div className="bus-info">
+                <FaBus className="bus-icon" />
+                <span className="bus-type">{review.bus.bus_type}</span>
+              </div>
+
               {/* Rating */}
-              <div className="rating">
-                {Array(testimonial.rating)
-                  .fill(0)
-                  .map((_, i) => (
-                    <Star key={i} className="star-icon" />
-                  ))}
+              <div className="review-rating">
+                <div className="stars">
+                  {renderStars(review.rating)}
+                </div>
+              </div>
+
+              {/* Route Information */}
+              <div className="review-route">
+                <span className="route-label">Route: </span>
+                <span className="route-info">
+                  {review.route.source} → {review.route.destination}
+                </span>
               </div>
 
               {/* Comment */}
-              <p className="comment">"{testimonial.comment}"</p>
+              <div className="review-comment">
+                <p>{review.comment}</p>
+              </div>
 
-              {/* Name and Location */}
-              <div className="user-info">
-                <h3 className="user-name">{testimonial.name}</h3>
-                <p className="user-location">{testimonial.location}</p>
+              {/* Date */}
+              <div className="review-date">
+                <span>{new Date(review.created_at).toLocaleString()}</span>
               </div>
             </div>
           ))}

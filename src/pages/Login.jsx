@@ -60,6 +60,13 @@ const LoginPage = () => {
     }
   };
 
+// =======  rediect to booking page when user login and come from booking page =====
+  const handleSuccessfulLogin = () => {
+    const redirectPath = localStorage.getItem('redirectAfterLogin') || '/';
+    localStorage.removeItem('redirectAfterLogin');
+    navigate(redirectPath);
+  };
+
   return (
     <>
       <Toaster autoClose={3000} />

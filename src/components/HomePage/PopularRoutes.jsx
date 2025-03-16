@@ -1,26 +1,61 @@
-// components/PopularRoutes.jsx
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { FaBus } from 'react-icons/fa'; // Using react-icons for an additional bus icon
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
 import '../../style/home/popularRoutes.css'; // Import the CSS file
 
-export default function PopularRoutes() {
-  const routes = [
-    { from: "Kathmandu", to: "Pokhara", price: "Rs. 800", image: "https://via.placeholder.com/300x200" },
-    { from: "Kathmandu", to: "Chitwan", price: "Rs. 650", image: "https://via.placeholder.com/300x200" },
-    { from: "Pokhara", to: "Lumbini", price: "Rs. 750", image: "https://via.placeholder.com/300x200" },
-    { from: "Kathmandu", to: "Janakpur", price: "Rs. 900", image: "https://via.placeholder.com/300x200" },
-  ];
+import { PopularRoutesApi } from '../../api/homeApi'; // Assuming PopularRoutesApi is exported from homeApi.js
+import { Link } from 'react-router-dom';
 
-  // Initialize AOS
+export default function PopularRoutes() {
+  const [popularRoutes, setPopularRoutes] = useState([]);  // State to hold fetched routes
+  const [loading, setLoading] = useState(true);  // Loading state for fetching data
+  const [error, setError] = useState(null);  // Error state to handle any errors during fetching
+
+  // Fetch popular routes when the component mounts
   useEffect(() => {
     AOS.init({
       duration: 800, // Animation duration in milliseconds
       once: true, // Animate only once on scroll
     });
+
+    // Fetch data from the API
+    const fetchPopularRoutes = async () => {
+      try {
+        const response = await PopularRoutesApi(); // Make the API call
+        if (response?.success) {
+          setPopularRoutes(response.data);  // Set the fetched data to state
+        } else {
+          setError("Failed to fetch routes.");  // Set error if no data returned
+        }
+      } catch (err) {
+        setError("Error fetching popular routes.");  // Handle any other errors
+      } finally {
+        setLoading(false);  // Set loading to false once the request is done
+      }
+    };
+
+    fetchPopularRoutes();  // Call the function to fetch data
   }, []);
+
+  // If the data is still being fetched
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  // If there was an error during fetching
+  if (error) {
+    return <div>{error}</div>;
+  }
+
+  // Static images array (assuming you want 4 different images for the cards)
+  const staticImages = [
+    'https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a2F0aG1hbmR1fGVufDB8MHwwfHx8MA%3D%3D', 
+    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbmGiF3kl1hDYb-sAEY-T3KrB1JOUL4Ait6g&s', 
+    'https://powertraveller.com/wp-content/uploads/2024/08/kathmandu-to-pokhara-car-transfer.jpg', 
+    'hhttps://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXeyX3l3rvOYUGexdez3XStzQY6NPAKgbNuw&s'
+  ];
 
   return (
     <section className="popular-routes">
@@ -37,7 +72,7 @@ export default function PopularRoutes() {
 
         {/* Routes Grid */}
         <div className="routes-grid">
-          {routes.map((route, index) => (
+          {popularRoutes.slice(0, 4).map((route, index) => (
             <div
               key={index}
               className="route-card"
@@ -46,8 +81,8 @@ export default function PopularRoutes() {
             >
               {/* Route Image */}
               <img
-                src={route.image || "https://via.placeholder.com/300x200"}
-                alt={`${route.from} to ${route.to}`}
+                src={staticImages[index % staticImages.length]}  // Reuse 4 static images in a cycle
+                alt={`${route.source} to ${route.destination}`}
                 className="route-image"
               />
 
@@ -56,16 +91,10 @@ export default function PopularRoutes() {
                 <div className="route-info">
                   <div className="route-from">
                     <FaBus className="bus-icon" />
-                    <span>{route.from}</span>
+                    <span>{route.source}</span>
                   </div>
                   <ChevronRight className="arrow-icon" />
-                  <span className="route-to">{route.to}</span>
-                </div>
-
-                {/* Price */}
-                <div className="route-price">
-                  <span>Starting from</span>
-                  <span className="price">{route.price}</span>
+                  <span className="route-to">{route.destination}</span>
                 </div>
 
                 {/* Book Now Button */}
@@ -81,7 +110,9 @@ export default function PopularRoutes() {
           data-aos="fade-up"
           data-aos-delay="600"
         >
-          <button className="view-all-button">View All Routes</button>
+          <Link to="/all-routes">
+            <button className="view-all-button">View All Routes</button>
+          </Link>
         </div>
       </div>
     </section>

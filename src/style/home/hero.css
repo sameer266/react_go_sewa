@@ -126,10 +126,35 @@
     align-items: center;
 }
 
+.hero-section .input-wrapper select {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    outline: none;
+    appearance: none; /* Removes default browser styles */
+  }
+
+  .hero-section .input-wrapper .input-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #777;
+  }
+  .hero-section .input-wrapper select {
+    padding-left: 35px; /* Adjust to make space for the icon */
+    cursor: pointer;
+  }
+
 .hero-section .input-wrapper.date-wrapper {
     position: relative;
     z-index: inherit;
 }
+
+
 
 .hero-section .input-icon {
     position: absolute;
