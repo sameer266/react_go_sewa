@@ -1,9 +1,22 @@
 // components/Footer.jsx
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
 import '../style/home/componentCss/footer.css'; // Import the CSS file
+import { NavAndContactApi } from '../api/homeApi';
 
 export default function Footer() {
+
+  const [data,setData]=useState({})
+
+  useEffect(()=>{
+    const fetchData = async ()=>{
+      const response = await NavAndContactApi();
+      if (response?.success){
+        setData(response.data);
+      }
+    };
+    fetchData();
+  }, [])
   return (
     <footer className="footer">
       <div className="container">
@@ -37,10 +50,10 @@ export default function Footer() {
             <h3 className="footer-heading">Quick Links</h3>
             <ul className="footer-links">
               <li>
-                <a href="#" className="footer-link">Home</a>
+                <a href="/" className="footer-link">Home</a>
               </li>
               <li>
-                <a href="#" className="footer-link">Routes</a>
+                <a href="/all-routes" className="footer-link">Routes</a>
               </li>
               <li>
                 <a href="#" className="footer-link">Services</a>
@@ -60,15 +73,15 @@ export default function Footer() {
             <ul className="footer-contact">
               <li className="contact-item">
                 <FaMapMarkerAlt className="contact-icon" />
-                <span>123 Bus Street, Kathmandu, Nepal</span>
+                <span>{data.address}</span>
               </li>
               <li className="contact-item">
                 <FaPhone className="contact-icon" />
-                <span>+977 123 456 7890</span>
+                <span>+977-{data.phone}</span>
               </li>
               <li className="contact-item">
                 <FaEnvelope className="contact-icon" />
-                <span>info@gosewa.com</span>
+                <span>{data.email}</span>
               </li>
             </ul>
           </div>

@@ -1,13 +1,27 @@
 // components/Contact.jsx
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaMapMarkerAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
 import '../style/home/contact.css'; // Import the CSS file
+import { NavAndContactApi } from '../api/homeApi';
 
 export default function Contact() {
+
+  const [contactData,setContactData]=useState({})
+
+  const fetchData = async ()=>{
+    const response = await NavAndContactApi();
+    if (response?.success){
+      setContactData(response.data)
+      console.log("Data",response.data)
+    }
+  }
   // Initialize AOS for animations
   useEffect(() => {
+
+    fetchData();
+
     AOS.init({
       duration: 800, // Animation duration in milliseconds
       once: true, // Animate only once on scroll
@@ -45,21 +59,21 @@ export default function Contact() {
                 <FaMapMarkerAlt className="contact-icon" />
                 <div>
                   <h4>Our Office</h4>
-                  <p>123 Bus Street, Kathmandu, Nepal</p>
+                  <p>{contactData.address} Nepal</p>
                 </div>
               </li>
               <li className="contact-item">
                 <FaPhone className="contact-icon" />
                 <div>
                   <h4>Call Us</h4>
-                  <p>+977 123 456 7890</p>
+                  <p>+977-{contactData.phone}</p>
                 </div>
               </li>
               <li className="contact-item">
                 <FaEnvelope className="contact-icon" />
                 <div>
                   <h4>Email Us</h4>
-                  <p>info@gosewa.com</p>
+                  <p>{contactData.email}</p>
                 </div>
               </li>
             </ul>

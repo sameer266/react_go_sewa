@@ -14,17 +14,27 @@ api.interceptors.request.use((config) => {
     return config;
 });
 
-// Handle token expiration
+// Handle token expiration and retry request
 api.interceptors.response.use(
     (response) => response,
     async (error) => {
-        if (error.response?.status == 400) {
+        const originalRequest = error.config;
+
+        if (error.response?.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
             try {
                 const refreshToken = localStorage.getItem("refresh");
-                const { data } = await axios.post(`${BASE_URL}/token/refresh/`, { refresh: refreshToken });
+                if (!refreshToken) throw new Error("No refresh token");
+
+                const { data } = await axios.post(`${BASE_URL}api/token/refresh/`, { refresh: refreshToken });
+
+                // Update token in localStorage
                 localStorage.setItem("access", data.access);
-                return api(error.config); // Retry failed request with new token
-            } catch {
+
+                // Update authorization header & retry request
+                originalRequest.headers.Authorization = `Bearer ${data.access}`;
+                return api(originalRequest);
+            } catch (err) {
                 localStorage.clear();
                 window.location.href = "/sign-in";
             }

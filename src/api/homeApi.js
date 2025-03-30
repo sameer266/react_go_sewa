@@ -2,9 +2,18 @@ import axios from "axios"
 import api from "./JwtConfig"
 
 const Base_URL='http://127.0.0.1:8000/'
-const refreshToken = localStorage.getItem("refresh_token")
 
 
+// ======= Data For Navbar and Contact ====
+const NavAndContactApi= async ()=>{
+    try {
+        const response = await axios.get(`${Base_URL}api/nav_contact/`)
+        return response.data;
+        
+    } catch (error) {
+        console.log("error in fetching data")
+    }
+}
 
 // ======= Authentication APi =============
 const LoginAPi= async(phone , password)=>{
@@ -14,8 +23,10 @@ const LoginAPi= async(phone , password)=>{
             {
                 phone,
                 password
-            }
-        );
+                }
+            );
+            
+        
         return response.data;
 
     }
@@ -27,8 +38,9 @@ const LoginAPi= async(phone , password)=>{
 const LogoutApi= async ()=>{
 
     try{
-
-const response= await api.post("api/logout/",
+        const refreshToken = localStorage.getItem("refresh")
+        
+const response= await api.post(`api/logout/`,
     {refresh:refreshToken}
 );
         return response.data;
@@ -40,22 +52,73 @@ const response= await api.post("api/logout/",
 }
 
 
-const ResgisterApi= async (data)=>{
-
+const ResgisterApi= async (fullname,phone)=>{
+    const data = {
+        full_name:fullname,
+        phone:phone
+    }
     try{
-        const response = await api.post("api/register/",
-            {data}
+        const response = await api.post("api/send_otp/",
+            data
         );
         return response.data
 
         
     }
     catch(error){
-
-        console.log("Error in registering user ", error.response.data)
+        return error.response.data
     }
 }
 
+const VerifyOtpApi= async (otp)=>{
+    let data=  {"otp":otp}
+    try {
+        const response = await api.post("api/verify_otp/",
+            data 
+        );
+        return response.data;
+        
+    } catch (error) {
+        console.log("error in verifying otp")
+    }
+}
+
+
+// ====== Confirm password ============
+const UserConfirmPassword= async(password)=>{
+    const data={
+        "password":password
+    }
+
+    try{
+    const response = await api.post('api/register_user/',
+        data
+    )
+    return response.data
+    }
+    catch(error){
+        console.log("error in craeting a password")
+    }
+}
+
+// ========= Resert password =========
+const ResetPasswordApi = async (data)=>{
+
+try{
+    const response = await api.post(`${Base_URL}api/reset_password`,
+        data
+    )
+
+    return response.data
+}
+
+catch(error){
+
+    console.log("error in reseting password ")
+}
+
+
+}
 
 // ===== Home Page  Api ============
 const AllRoutesApi=async ()=>{
@@ -118,17 +181,92 @@ const AllReviewsApi = async ()=>{
 }
 
 
+const AllBusesApi = async ()=>{
+    try {
+        const response = await axios.get(`${Base_URL}api/all_buses/`)
+        return response.data
+    } catch (error) {
+        
+        console.log("error in fetching all buses ", error.response.data)
+    }
+}
 
-export   {
+
+// ======= bus list api ===========
+const  AllRoutesBusesListApi = async (id)=>{
+
+    try {
+        const response = await axios.get(`${Base_URL}api/routes_all_buses/${id}/`)
+        return response.data;
+        
+    } catch (error) {
+        console.log("error in fetching the data")
+    }
+}
+
+// ======= Bus Reservation ===========
+const AllVechicleTypeList= async ()=>{
+    try {
+        const response = await axios.get(`${Base_URL}api/all_vechicle_type/`)
+        return response.data;
+    } catch (error) {
+        console.log("Error in fetching the reservation bus list ")
+    }
+}
+
+const VechicleList= async (id)=>{
+    try {
+        const response = await axios.get(`${Base_URL}api/vechicle_reservation/${id}/`)
+        return response.data;
+    } catch (error) {
+        console.log("Error in fetching the reservation bus list ")
+    }
+}
+
+
+
+// ============
+// BUs layout 
+// ============
+
+const BusLayoutApi = async (id)=>{
+    try {
+        const response = await axios.get(`${Base_URL}api/admin_buslayout/${id}/`)
+        return response.data;
+    } catch (error) {
+        console.log("error in fetching bus layout")
+    }
+}
+
+
+export  {
+
+    // Nav and Contact
+    NavAndContactApi,
 
     // landing page
     LoginAPi,
     LogoutApi,
     ResgisterApi,
+    VerifyOtpApi,
+    UserConfirmPassword,
+    ResetPasswordApi,
+
     AllRoutesApi,
     FilterSchedule,
     AllScheduleApi,
     PopularRoutesApi,
     AllReviewsApi,
+    AllBusesApi,
 
-    };
+    //  One routes buses list
+    AllRoutesBusesListApi,
+
+    // Bus Reservation
+    AllVechicleTypeList,
+
+    // bus layout
+    BusLayoutApi,
+    VechicleList
+};
+    

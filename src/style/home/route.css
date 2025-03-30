@@ -7,11 +7,11 @@
 
 /* Hero Section */
 .route-page .route-hero {
-    height: 50vh;
-    min-height: 400px;
     background: linear-gradient(rgba(30, 41, 59, 0.8), rgba(30, 41, 59, 0.8)), url('../../assets/home-image/main2.jpg');
     background-size: cover;
     background-position: center;
+    max-height: 400px;
+    min-height: 50vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -62,7 +62,7 @@
 }
 
 .route-page .search-form {
-    
+    display: flex; /* Added display:flex which was missing */
     flex-wrap: wrap;
     gap: 15px;
     background-color: white;
@@ -232,6 +232,7 @@
 
 .route-page .route-image {
     position: relative;
+    width: 100%;
     height: 180px;
     overflow: hidden;
 }
@@ -239,9 +240,11 @@
 .route-page .image-placeholder {
     width: 100%;
     height: 100%;
-    background-size: cover;
-    background-position: center;
+    object-fit: cover;
     transition: transform 0.5s ease;
+    position: absolute; /* Fixed image position */
+    top: 0;
+    left: 0;
 }
 
 .route-page .route-card:hover .image-placeholder {
@@ -260,9 +263,11 @@
     display: flex;
     align-items: center;
     gap: 5px;
+    z-index: 2; /* Ensure badge appears above image */
 }
 
 .route-page .route-details {
+    margin-top: 10px;
     padding: 20px;
     display: flex;
     flex-direction: column;
@@ -273,6 +278,11 @@
     font-size: 1.25rem;
     color: #1e293b; /* Gray-800 */
     margin-bottom: 15px;
+    height: 3em; /* Fixed height for titles to ensure alignment */
+    overflow: hidden; /* Hide overflowing text */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Limit to 2 lines */
+    -webkit-box-orient: vertical;
 }
 
 .route-page .route-info {
@@ -299,13 +309,15 @@
     gap: 15px;
     margin-bottom: 15px;
     color: #64748b; /* Gray-500 */
+    height: 1.5em; /* Fixed height for amenities */
+    overflow: hidden;
 }
 
 .route-page .route-footer {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: auto;
+    margin-top: auto; /* Push footer to bottom */
     padding-top: 15px;
     border-top: 1px solid #e2e8f0; /* Gray-200 */
 }
@@ -374,6 +386,8 @@
     gap: 25px;
 }
 
+
+
 /* Why Choose Us */
 .route-page .why-choose-us {
     background-color: #f8fafc; /* Gray-50 */
@@ -401,6 +415,10 @@
     text-align: center;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
     transition: all 0.3s ease;
+    height: 100%; /* Ensure consistent height */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
 .route-page .feature-card:hover {
@@ -418,11 +436,16 @@
     font-size: 1.3rem;
     color: #1e293b; /* Gray-800 */
     margin-bottom: 15px;
+    height: 2.6em; /* Fixed height for titles */
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .route-page .feature-card p {
     color: #64748b; /* Gray-500 */
     line-height: 1.6;
+    flex-grow: 1; /* Allow text to fill available space */
 }
 
 /* Responsive Adjustments */
@@ -496,6 +519,15 @@
         font-size: 1.8rem;
     }
     
+    .route-page .route-hero {
+        min-height: 250px;
+    }
+
+    .route-page .route-image {
+        height: 120px;
+    }
+
+
     .route-page .search-summary h2 {
         font-size: 1.5rem;
     }
@@ -503,6 +535,14 @@
     .route-page .route-results,
     .route-page .popular-routes {
         grid-template-columns: 1fr;
+    }
+    
+    .route-page .route-locations h3 {
+        height: auto; /* Allow dynamic height on small screens */
+    }
+    
+    .route-page .feature-card h3 {
+        height: auto; /* Allow dynamic height on small screens */
     }
 }
 

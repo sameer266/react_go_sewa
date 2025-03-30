@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronRight } from 'lucide-react';
 import { FaBus } from 'react-icons/fa'; // Using react-icons for an additional bus icon
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // Import AOS styles
 import '../../style/home/popularRoutes.css'; // Import the CSS file
-
+import { Loader } from 'lucide-react';
 import { PopularRoutesApi } from '../../api/homeApi'; // Assuming PopularRoutesApi is exported from homeApi.js
 import { Link } from 'react-router-dom';
 
@@ -49,13 +49,6 @@ export default function PopularRoutes() {
     return <div>{error}</div>;
   }
 
-  // Static images array (assuming you want 4 different images for the cards)
-  const staticImages = [
-    'https://images.unsplash.com/photo-1605640840605-14ac1855827b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8a2F0aG1hbmR1fGVufDB8MHwwfHx8MA%3D%3D', 
-    'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbmGiF3kl1hDYb-sAEY-T3KrB1JOUL4Ait6g&s', 
-    'https://powertraveller.com/wp-content/uploads/2024/08/kathmandu-to-pokhara-car-transfer.jpg', 
-    'hhttps://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQXeyX3l3rvOYUGexdez3XStzQY6NPAKgbNuw&s'
-  ];
 
   return (
     <section className="popular-routes">
@@ -72,7 +65,7 @@ export default function PopularRoutes() {
 
         {/* Routes Grid */}
         <div className="routes-grid">
-          {popularRoutes.slice(0, 4).map((route, index) => (
+          {popularRoutes.map((route, index) => (
             <div
               key={index}
               className="route-card"
@@ -81,7 +74,7 @@ export default function PopularRoutes() {
             >
               {/* Route Image */}
               <img
-                src={staticImages[index % staticImages.length]}  // Reuse 4 static images in a cycle
+                src={`http://127.0.0.1:8000${route.image}`}  // Reuse 4 static images in a cycle
                 alt={`${route.source} to ${route.destination}`}
                 className="route-image"
               />
@@ -98,7 +91,9 @@ export default function PopularRoutes() {
                 </div>
 
                 {/* Book Now Button */}
+                <Link to={`/buslist/${route.id}`}>
                 <button className="book-now-button">Book Now</button>
+                </Link>
               </div>
             </div>
           ))}

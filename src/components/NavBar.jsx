@@ -1,164 +1,242 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useLocation,useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
-import { Bus, LogIn, Book, Menu, X, Phone, CircleUserRound, LogOut ,Route} from 'lucide-react'; 
-import logout from '../auth/authSlice'
-import '../style/home/componentCss/navbar.css';
-
-import { LogoutApi } from '../api/homeApi';
-import toast,{ Toaster } from 'react-hot-toast';
+import { useLocation, useNavigate, Link } from 'react-router-dom';
+import { Bus, LogIn, LogOut, Menu, X, Phone, CircleUserRound } from 'lucide-react';
+import { logout } from '../auth/authSlice';
+import { LogoutApi, NavAndContactApi } from '../api/homeApi';
+import Loader from './Loader';
+import toast, { Toaster } from 'react-hot-toast';
 
 export default function Navbar() {
+  const [navdata, setNavdata] = useState({});
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const menuRef = useRef(null);
 
   const location = useLocation();
-  const navigate= useNavigate()
-  const currentPath = location.pathname;
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { isAuthenticated, role, user } = useSelector((state) => state.auth);
+  const userType = role;
+  const currentPath = location.pathname;
 
-  const isAuthenticated = useSelector((state)=>state.auth.isAuthenticated)
-  const user = useSelector((state) => state.auth.user);
+  const fetchData = async () => {
+    const response = await NavAndContactApi();
+    if (response?.success) {
+      setNavdata(response.data);
+    }
+  };
 
-
-  // Handle scrolling effect
   useEffect(() => {
-    let debounceTimer;
+    fetchData();
     const handleScroll = () => setIsScrolled(window.scrollY > 10);
-  
+    let debounceTimer;
     const onScroll = () => {
       clearTimeout(debounceTimer);
       debounceTimer = setTimeout(handleScroll, 100);
     };
-  
     window.addEventListener('scroll', onScroll);
-    return () => window.removeEventListener('scroll', onScroll);
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      clearTimeout(debounceTimer);
+    };
   }, []);
-  
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
+  useEffect(() => setIsMobileMenuOpen(false), [location.pathname]);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
+
+  const getDashboardPath = () => {
+    if (userType === 'admin') return '/admin-dashboard';
+    if (userType === 'customer') return '/user-dashboard';
+    if (userType === 'sub_admin') return '/counter-dashboard';
+  };
+
+  const handleDashboard = () => {
+    if (!isAuthenticated) return;
+    navigate(getDashboardPath());
   };
 
   const handleLogout = async () => {
     try {
-      await LogoutApi();
-      dispatch(logout());
-      localStorage.clear();
-      
-      toast.success('Logout successful');
-  
-      setTimeout(() => {
+      setLoading(true);
+      const response = await LogoutApi();
+      if (response?.success) {
+        localStorage.clear();
         navigate('/');
-      }, 1000); // Wait 1 second before navigating
-  
+        setTimeout(() => {
+          dispatch(logout());
+          toast.success('Logout successful');
+        }, 1000);
+      }
     } catch (error) {
-      console.error("Logout failed:", error);
+      console.error('Logout failed:', error);
       toast.error('Logout failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
   };
-  
-  
+
+  const navLinks = [
+    { to: '/', label: 'Home' },
+    { to: '/schedule', label: 'Schedule' },
+    { to: '/services', label: 'Services' },
+    { to: '/all-routes', label: 'Routes' },
+    { to: '/bus-reserve', label: 'Bus Reserve' },
+    { to: '/about', label: 'About' },
+    { to: '/contact', label: 'Contact' },
+  ];
+
+  const renderNavLinks = () => (
+    navLinks.map(({ to, label }) => (
+      <Link
+        key={to}
+        to={to}
+        className={`text-gray-800 hover:text-green-600 px-4 py-2 rounded-md text-base font-medium transition-colors duration-200 ${
+          currentPath === to ? 'text-green-600 border-b-2 border-green-600' : ''
+        }`}
+      >
+        {label}
+      </Link>
+    ))
+  );
 
   return (
     <>
-    <Toaster autoClose={3000}/>
-    
-    <header className={`navbar ${isScrolled ? 'scrolled' : ''}`}>
-      <div className="navbar-container">
-        {/* Logo Section */}
-        <Link to="/" className="logo">
-          <Bus className="logo-icon" />
-          <span className="logo-text">Go Sewa</span>
-        </Link>
+      {loading && <Loader />}
+      <Toaster autoClose={3000} />
 
-        {/* Navigation Links (Desktop) */}
-        <nav className="desktop-nav">
-          <Link to="/" className={`nav-link ${currentPath === '/' ? "active" : ""}`}>Home</Link>
-          <Link to="/routes" className={`nav-link ${currentPath === '/routes' ? "active" : ""}`}>Routes</Link>
-          <Link to="/services" className={`nav-link ${currentPath === '/services' ? "active" : ""}`}>Services</Link>
-          <Link to="/about" className={`nav-link ${currentPath === "/about" ? "active" : ""}`}>About</Link>
-          <Link to="/contact" className={`nav-link ${currentPath === '/contact' ? "active" : ""}`}>Contact</Link>
-        </nav>
-
-        {/* Action Buttons (Desktop) */}
-        <div className="desktop-actions">
-          {/* Phone Number */}
-          <Link to="tel:+9779841000000" className="phone-number">
-            <Phone className="phone-icon" />
-            <span>+977 9841 000000</span>
-          </Link>
-
-          {isAuthenticated ? (
-            <>
-              <span className="user-info">
-                <CircleUserRound className="icon" /> {user || 'Loading...'}
-              </span>
-              <button className="logout-button" onClick={handleLogout}>
-                <LogOut className="icon" /> Logout
-              </button>
-            </>
-          ) : (
-            <Link to="/sign-in" className="sign-in">
-              <LogIn className="icon" /> Sign In
-            </Link>
-          )}
-
-<Link to="/all-routes">
-<button className="book-now">
-              <Route className="icon" /> All Routes
-            </button>
-            </Link>
-        </div>
-
-        {/* Mobile Menu Toggle */}
-        <button className="mobile-menu-toggle" onClick={toggleMobileMenu}>
-          {isMobileMenuOpen ? <X className="icon" /> : <Menu className="icon" />}
-        </button>
-      </div>
-
-      {/* Mobile Menu (Dropdown) */}
-      <div className={`mobile-menu ${isMobileMenuOpen ? 'active' : ''}`}>
-        {isMobileMenuOpen && (
-          <nav className="mobile-nav">
-            <Link to="/" className={`nav-link ${currentPath === '/' ? "active" : ""}`}>Home</Link>
-            <Link to="/routes" className={`nav-link ${currentPath === '/routes' ? "active" : ""}`}>Routes</Link>
-            <Link to="/services" className={`nav-link ${currentPath === '/services' ? "active" : ""}`}>Services</Link>
-            <Link to="/about" className={`nav-link ${currentPath === "/about" ? "active" : ""}`}>About</Link>
-            <Link to="/contact" className={`nav-link ${currentPath === '/contact' ? "active" : ""}`}>Contact</Link>
-
-            {/* Phone Number in Mobile Menu */}
-            <Link to="tel:+9779841000000" className="phone-number">
-              <Phone className="phone-icon" />
-              <span>+977 9841 000000</span>
+      <header className={`fixed w-full top-0 z-50 bg-white shadow-lg transition-all duration-300 ${isScrolled ? 'py-2' : 'py-3'}`}>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between items-center">
+            {/* Logo */}
+            <Link to="/" className="flex items-center">
+              <img
+                src={`http://127.0.0.1:8000${navdata.image}`}
+                alt="Go Sewa"
+                className="h-16 w-auto object-contain"
+              />
             </Link>
 
-            {isAuthenticated ? (
-              <>
-                <span className="user-info">
-                  <CircleUserRound className="icon" /> {user || 'Loading...'}
-                </span>
-                <button className="logout-button" onClick={handleLogout}>
-                  <LogOut className="icon" /> Logout
-                </button>
-              </>
-            ) : (
-              <Link to="/sign-in" className="sign-in">
-                <LogIn className="icon" /> Sign In
-              </Link>
+            {/* Desktop Navigation */}
+            {userType !== 'admin' && (
+              <nav className="hidden md:flex space-x-2 items-center">
+                {renderNavLinks()}
+              </nav>
             )}
 
-<Link to="/all-routes">
-<button className="book-now">
-              <Route className="icon" /> All Routes
+            {/* Desktop Actions */}
+            <div className="hidden md:flex items-center space-x-4">
+              <Link
+                to={`tel:+977${navdata.phone}`}
+                className="flex items-center text-gray-800 hover:text-green-600 text-base font-medium"
+              >
+                <Phone className="h-5 w-5 mr-2 text-green-600" />
+                <span>+977-{navdata.phone}</span>
+              </Link>
+
+              {isAuthenticated ? (
+                <>
+                  <span
+                    className="flex items-center text-gray-800 hover:text-green-600 cursor-pointer text-base font-medium"
+                    onClick={handleDashboard}
+                  >
+                    <CircleUserRound className="h-5 w-5 mr-2 text-green-600" />
+                    {user || 'Loading...'}
+                  </span>
+                  <button
+                    className="flex items-center bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-medium transition-all shadow-md"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="h-5 w-5 mr-2" /> Logout
+                  </button>
+                </>
+              ) : (
+                <Link
+                  to="/sign-in"
+                  className="flex items-center bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-medium transition-all shadow-md"
+                >
+                  <LogIn className="h-5 w-5 mr-2" /> Sign In
+                </Link>
+              )}
+            </div>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              className="md:hidden p-2 rounded-md text-gray-800 hover:bg-gray-100"
+              onClick={toggleMobileMenu}
+              aria-label="Toggle mobile menu"
+            >
+              {isMobileMenuOpen ? <X className="h-6 w-6 text-green-600" /> : <Menu className="h-6 w-6 text-green-600" />}
             </button>
-            </Link>
-    
-          </nav>
-        )}
-      </div>
-    </header>
+          </div>
+
+          {/* Mobile Menu */}
+          {isMobileMenuOpen && (
+            <div ref={menuRef} className="md:hidden absolute top-full left-0 w-full bg-white shadow-lg border-t border-green-100">
+              <nav className="flex flex-col items-center p-4 space-y-4">
+                {userType !== 'admin' && (
+                  <>
+                    {navLinks.map(({ to, label }) => (
+                      <Link
+                        key={to}
+                        to={to}
+                        className={`w-full text-center text-gray-800 hover:text-green-600 py-2 text-base font-medium transition-colors duration-200 ${
+                          currentPath === to ? 'text-green-600 border-b-2 border-green-600' : ''
+                        }`}
+                      >
+                        {label}
+                      </Link>
+                    ))}
+                    <Link
+                      to={`tel:+977${navdata.phone}`}
+                      className="flex justify-center items-center w-full text-gray-800 hover:text-green-600 py-2 text-base font-medium"
+                    >
+                      <Phone className="h-5 w-5 mr-2 text-green-600" />
+                      <span>+977-{navdata.phone}</span>
+                    </Link>
+                  </>
+                )}
+                {isAuthenticated ? (
+                  <>
+                    <span
+                      className="flex justify-center items-center w-full text-gray-800 hover:text-green-600 py-2 text-base font-medium cursor-pointer"
+                      onClick={handleDashboard}
+                    >
+                      <CircleUserRound className="h-5 w-5 mr-2 text-green-600" />
+                      {user || 'Loading...'}
+                    </span>
+                    <button
+                      className="flex justify-center items-center w-full max-w-xs bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-medium transition-all shadow-md"
+                      onClick={handleLogout}
+                    >
+                      <LogOut className="h-5 w-5 mr-2" /> Logout
+                    </button>
+                  </>
+                ) : (
+                  <Link
+                    to="/sign-in"
+                    className="flex justify-center items-center w-full max-w-xs bg-gradient-to-r from-green-500 to-green-600 text-white px-4 py-2 rounded-xl hover:from-green-600 hover:to-green-700 text-base font-medium transition-all shadow-md"
+                  >
+                    <LogIn className="h-5 w-5 mr-2" /> Sign In
+                  </Link>
+                )}
+              </nav>
+            </div>
+          )}
+        </div>
+      </header>
     </>
   );
 }
