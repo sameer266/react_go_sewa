@@ -10,7 +10,7 @@ import '../style/home/componentCss/sidebar.css';
 import { useSelector } from 'react-redux';
 
 const Sidebar = ({ collapsed, setCollapsed, menuLink }) => {
-  const menuItems =  menuLink;
+  const menuItems =  menuLink();
   console.log("This is menuItme",menuItems)
   const location =useLocation()
 

@@ -130,7 +130,7 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Navigation */}
-            {userType !== 'admin' && (
+            {userType !== 'admin' ||  userType !=='sub_admin' && (
               <nav className="hidden md:flex space-x-2 items-center">
                 {renderNavLinks()}
               </nav>

@@ -18,7 +18,7 @@ import {
 import Sidebar from '../../components/SideBar';
 import Loader from '../../components/Loader';
 import { AdminDashboardApi } from '../../api/adminApi';
-import { menuLinks } from './Links';
+import { MenuLinks } from '../AdminDashboard/Link';
 
 const CounterDashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -106,7 +106,7 @@ const CounterDashboard = () => {
   return (
     <div className="flex bg-gray-100 min-h-screen mt-20">
       {/* Sidebar */}
-      <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} menuLink={menuLinks || []} />
+      <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} menuLink={MenuLinks || []} />
 
       {/* Main Content */}
       <main className={`flex-1 transition-all duration-300 w-full ${sidebarCollapsed ? 'ml-20' : 'ml-64'} p-4 md:p-6`}>
