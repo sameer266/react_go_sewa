@@ -1,7 +1,7 @@
 import axios from "axios"
 import api from "./JwtConfig"
 
-const Base_URL='http://127.0.0.1:8000/'
+const Base_URL= process.env.REACT_APP_BASE_URL;
 
 
 // ======= Data For Navbar and Contact ====

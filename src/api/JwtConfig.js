@@ -1,9 +1,9 @@
 import axios from "axios";
 
-const BASE_URL = "http://127.0.0.1:8000/";
+const Base_URL= process.env.REACT_APP_BASE_URL;
 
 const api = axios.create({
-    baseURL: BASE_URL,
+    baseURL: Base_URL,
     headers: { "Content-Type": "application/json" },
 });
 
@@ -26,7 +26,7 @@ api.interceptors.response.use(
                 const refreshToken = localStorage.getItem("refresh");
                 if (!refreshToken) throw new Error("No refresh token");
 
-                const { data } = await axios.post(`${BASE_URL}api/token/refresh/`, { refresh: refreshToken });
+                const { data } = await axios.post(`${Base_URL}api/token/refresh/`, { refresh: refreshToken });
 
                 // Update token in localStorage
                 localStorage.setItem("access", data.access);
