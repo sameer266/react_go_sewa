@@ -6,7 +6,8 @@ import {
   User, Mail, Phone, Calendar, VenetianMask, Hash, Edit, Save, X,
   Key, Lock, Eye, EyeOff
 } from 'lucide-react';
-
+import { MenuLinks } from '../AdminDashboard/Link';
+import { Sidebar } from 'lucide-react';
 function UserProfile() {
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -25,6 +26,8 @@ function UserProfile() {
   });
   const [showPassword, setShowPassword] = useState({ current: false, new: false, confirm: false });
   const [passwordError, setPasswordError] = useState('');
+  const [sidebarCollapsed,setSidebarCollapsed] =useState(false)
+
 
   useEffect(() => {
     const fetchProfile = async () => {
@@ -124,6 +127,11 @@ function UserProfile() {
     <>
       <Toaster />
       <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6 font-sans">
+
+        <Sidebar  collapsed={sidebarCollapsed} 
+        setCollapsed={setSidebarCollapsed}
+         menuLink={MenuLinks || []} />
+
         <div className="max-w-2xl mx-auto mt-10 md:mt-16">
           <div className="bg-white rounded-2xl shadow-lg overflow-hidden">
             {/* Header */}

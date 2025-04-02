@@ -19,7 +19,7 @@ import Sidebar from '../../components/SideBar';
 import Loader from '../../components/Loader';
 import { AdminDashboardApi } from '../../api/adminApi';
 import { ResetPasswordApi } from '../../api/homeApi';
-import { menuLinks } from './Link';
+import { MenuLinks } from '../AdminDashboard/Link';
 
 const Dashboard = () => {
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -90,7 +90,7 @@ const Dashboard = () => {
 
   return (
     <div className="flex bg-gray-100 min-h-screen mt-20">
-      <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} menuLink={menuLinks || []} />
+      <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} menuLink={MenuLinks || []} />
 
       <main className={`flex-1 transition-all duration-300 w-full ${sidebarCollapsed ? 'ml-20' : 'ml-64'} p-4 md:p-6`}>
         <header className="bg-white shadow-sm p-4 md:p-6 rounded-lg mb-6">

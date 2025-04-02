@@ -36,9 +36,12 @@ import BookTicket from "./pages/NormalUser/BookTicket";
 import MyBooking from "./pages/NormalUser/MyBooking";
 import PaymentHistory from "./pages/NormalUser/PaymentHistory";
 import Reservation from "./pages/AdminDashboard/Reservation"
-import GlobalTransition from "./components/GlobalTransition";
+
 import CounterDashboard from "./pages/TicketCounter/ConterDashboard";
 import PageNotFound from "./components/PageNotFound";
+import BusActive from "./pages/AdminDashboard/BusActive";
+import UserBookingDetails from "./pages/AdminDashboard/UserBookingDetails";
+import RouteBusLists from "./pages/AdminDashboard/RouteBusLists";
 
 
 
@@ -93,9 +96,14 @@ function App() {
         <Route path="/buses-management" element={<BusManagement/>}/>
         <Route path="/reservation-management" element={<Reservation/>}/>
         <Route path="/driver-staff" element={<DriverStaff/>} />
-        <Route path="/bus-layout" element={<BusLayout/>}/>
+    
         <Route path="/schedule-management" element={<ScheduleRoute/>}/>
+        <Route path="/bus-active/:id" element={<BusActive/>} />
+        <Route path="/userbooking-details/:id"  element={<UserBookingDetails/>}/>
+
         <Route path="/route-management" element={<RouteManagement/>}/>
+        <Route path="/bus-lists/:id" element={<RouteBusLists/>}/>
+
         <Route path="/booking-management" element={<BookingManagement/>}/>
         <Route path="/payment-management" element={<PaymentManagement/>}/>
         <Route path="/reports" element={<ReportAnalysis/>}/>

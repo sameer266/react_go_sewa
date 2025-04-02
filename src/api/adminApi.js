@@ -9,7 +9,7 @@ const refreshToken = localStorage.getItem("refresh_token")
 
 const AdminDashboardApi=async ()=>{
     try {
-        const response = await api.get(`api/admin_dashboard/`)
+        const response = await api.get(`api/subadmin_dashboard/`)
         return response.data
     } catch (error) {
         console.log("error in fetching data ", error.response.data)
@@ -357,6 +357,32 @@ const AdminScheduleDeleteApi = async (id) => {
     }
 }
 
+// ====== User booking  details of on Schedule ============
+
+const AdminUserScheduleBookingDetailsApi = async (id)=>{
+    try {
+        const response = await api.get(`api/admin_user_booking_details/${id}/`)
+        return response.data
+    } catch (error) {
+        console.log("error in  frtching user booking details")
+        
+    }
+}
+
+
+
+// ========= Bus Details According to the schedule=====
+const AdminBusDetailsOfScheduleApi = async(id)=>{
+    try {
+        const response = await api.get(`api/admin_schedule_bus_details/${id}/`)
+        return response.data;
+    } catch (error) {
+        console.log('error in fecthong bus details schedule data ');
+
+        
+    }
+
+}
 
 // ======== Route Managemnet ==========
 
@@ -405,6 +431,19 @@ const AdminRouteDeleteApi = async (id)=>{
     } catch (error) {
         console.log("error in deleting route data", error.response.data)
         
+    }
+}
+
+// ==== One Route All Bus Lists =============
+
+const AdminRouteBusLists= async(id)=>{
+    try{
+    const response = await api.get(`api/admin_route_buslist/${id}/`)
+    return response.data
+    }
+    catch(error){
+
+        console.log("error in fetching the  Bus lists ")
     }
 }
 
@@ -607,12 +646,19 @@ export { AdminDashboardApi,
         AdminScheduleDeleteApi,
         AdminScheduleUpdateApi,
 
+        // Driver Details (schedule routing)
+        AdminBusDetailsOfScheduleApi,
+        AdminUserScheduleBookingDetailsApi,
+
         // Route
         AdminRouteListAPi,
         AdminRouteAddApi,
         AdminRouteUpdateApi,
         AdminRouteDeleteApi,
 
+        // Route To all Bus Lists
+        AdminRouteBusLists,
+        
         // Booking
         AdminBookingListApi,
         AdminBookingUpdateApi,

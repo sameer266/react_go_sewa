@@ -42,7 +42,7 @@ const BusManagement = () => {
     staff: '',
     route: '',
     is_active: false,
-    is_running: false,
+   
   });
 
   const user_type = useSelector((state) => state.auth.role);
@@ -153,7 +153,7 @@ const BusManagement = () => {
       staff: '',
       route: '',
       is_active: false,
-      is_running: false,
+    
     });
     setRows(6);
     setColumns(5);
@@ -181,7 +181,7 @@ const BusManagement = () => {
       route:
         routes.find((r) => r.source === bus.route?.source && r.destination === bus.route?.destination)?.id || '',
       is_active: bus.is_active || false,
-      is_running: bus.is_running || false,
+
     });
 
     if (bus.layout?.seatLayout) {
@@ -630,16 +630,7 @@ const BusManagement = () => {
                       />
                       <span>Active</span>
                     </label>
-                    <label className="flex items-center gap-2">
-                      <input
-                        type="checkbox"
-                        name="is_running"
-                        checked={formData.is_running}
-                        onChange={handleChange}
-                        className="h-4 w-4 text-blue-600 border-gray-300 rounded"
-                      />
-                      <span>Running</span>
-                    </label>
+                   
                   </div>
 
                   <div className="flex flex-col sm:flex-row justify-end gap-4 mt-6">
@@ -750,15 +741,7 @@ const BusManagement = () => {
                                 >
                                   {bus.is_active ? 'Active' : 'Inactive'}
                                 </span>
-                                <span
-                                  className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                                    bus.is_running
-                                      ? 'bg-blue-100 text-blue-800'
-                                      : 'bg-gray-100 text-gray-800'
-                                  }`}
-                                >
-                                  {bus.is_running ? 'Running' : 'Stopped'}
-                                </span>
+                                
                               </div>
                             </td>
                             <td className="px-4 py-4 whitespace-nowrap text-right">

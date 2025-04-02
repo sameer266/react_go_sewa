@@ -207,7 +207,7 @@ const  AllRoutesBusesListApi = async (id)=>{
 // ======= Bus Reservation ===========
 const AllVechicleTypeList= async ()=>{
     try {
-        const response = await axios.get(`${Base_URL}api/all_vechicle_type/`)
+        const response = await axios.get(`${Base_URL}api/vechicle_types/`)
         return response.data;
     } catch (error) {
         console.log("Error in fetching the reservation bus list ")
@@ -216,7 +216,7 @@ const AllVechicleTypeList= async ()=>{
 
 const VechicleList= async (id)=>{
     try {
-        const response = await axios.get(`${Base_URL}api/vechicle_reservation/${id}/`)
+        const response = await axios.get(`${Base_URL}api/vechicle_list/type/${id}/`)
         return response.data;
     } catch (error) {
         console.log("Error in fetching the reservation bus list ")

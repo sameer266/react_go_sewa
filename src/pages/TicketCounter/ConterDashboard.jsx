@@ -114,7 +114,7 @@ const CounterDashboard = () => {
         <header className="bg-white shadow-sm p-4 md:p-6 rounded-lg mb-6">
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
             <div>
-              <h1 className="text-xl md:text-2xl font-bold text-gray-800">Ticket Counter Dashboard</h1>
+              <h1 className="text-xl md:text-2xl font-bold text-gray-800">Transportation Company Dashboard</h1>
               <p className="text-gray-500 text-sm">Welcome back, {user}!</p>
             </div>
             <div className="flex flex-col md:flex-row gap-3 md:gap-4 w-full md:w-auto">

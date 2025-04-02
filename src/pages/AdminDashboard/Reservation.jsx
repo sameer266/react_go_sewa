@@ -6,7 +6,7 @@ import {
   AdminVehicleReservationDeleteApi 
 } from '../../api/adminApi';
 import { 
-  Plus, Edit, Trash2, Save, X, ChevronLeft, ChevronRight, Filter, RefreshCw 
+  Plus, Edit, Trash2, Save, X, ChevronLeft, ChevronRight, Filter, RefreshCw, Image as ImageIcon 
 } from 'lucide-react';
 import { toast } from 'react-hot-toast';
 import Sidebar from '../../components/SideBar';
@@ -21,7 +21,8 @@ const INITIAL_FORM_STATE = {
   driverId: '',
   staffId: '',
   totalSeats: '',
-  price: ''
+  price: '',
+  image: null // Added image field
 };
 
 const ITEMS_PER_PAGE = 5;
@@ -42,10 +43,7 @@ const Reservation = () => {
 
   // Responsive check
   useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768);
-    };
-
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
@@ -85,13 +83,17 @@ const Reservation = () => {
   };
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    const { name, value, files } = e.target;
+    if (name === 'image') {
+      setFormData(prev => ({ ...prev, image: files[0] }));
+    } else {
+      setFormData(prev => ({ ...prev, [name]: value }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const requiredFields = Object.keys(INITIAL_FORM_STATE);
+    const requiredFields = Object.keys(INITIAL_FORM_STATE).filter(field => field !== 'image'); // Image is optional
     const missingFields = requiredFields.filter(field => !formData[field]);
     
     if (missingFields.length > 0) {
@@ -100,7 +102,13 @@ const Reservation = () => {
     }
 
     try {
-      const submitData = { ...formData };
+      const submitData = new FormData();
+      for (const key in formData) {
+        if (formData[key] !== null) {
+          submitData.append(key === 'vehicleNumber' ? 'vechicle_number' : key === 'vehicleModel' ? 'vechicle_model' : key, formData[key]);
+        }
+      }
+
       const apiCall = editingId 
         ? AdminVehicleReservationUpdateApi(editingId, submitData)
         : AdminVehicleReservationAddApi(submitData);
@@ -134,7 +142,8 @@ const Reservation = () => {
       driverId: reservation.driver.full_name,
       staffId: reservation.staff.full_name,
       totalSeats: reservation.total_seats,
-      price: reservation.price
+      price: reservation.price,
+      image: null // Reset image for new upload
     });
   };
 
@@ -201,6 +210,12 @@ const Reservation = () => {
         </div>
       </div>
       <div className="space-y-1 text-sm text-gray-600">
+        <img 
+          src={`http://127.0.0.1:8000${reservation.image}`} 
+          alt={reservation.name} 
+          className="w-full h-32 object-cover rounded mb-2"
+          onError={(e) => e.target.src = '/fallback-image.jpg'} // Fallback image
+        />
         <p><strong>Type:</strong> {reservation.type.name}</p>
         <p><strong>Vehicle Number:</strong> {reservation.vechicle_number}</p>
         <p><strong>Model:</strong> {reservation.vechicle_model}</p>
@@ -216,6 +231,7 @@ const Reservation = () => {
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
+              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Image</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Type</th>
               <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Vehicle Number</th>
@@ -227,13 +243,21 @@ const Reservation = () => {
           <tbody className="bg-white divide-y divide-gray-200">
             {paginatedReservations.length === 0 ? (
               <tr>
-                <td colSpan="6" className="px-6 py-4 text-center text-gray-500">
+                <td colSpan="7" className="px-6 py-4 text-center text-gray-500">
                   No reservations found
                 </td>
               </tr>
             ) : (
               paginatedReservations.map(reservation => (
                 <tr key={reservation.id} className="hover:bg-gray-50">
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <img 
+                      src={`http://127.0.0.1:8000${reservation.image}`} 
+                      alt={reservation.name} 
+                      className="w-16 h-16 object-cover rounded"
+                      onError={(e) => e.target.src = '/fallback-image.jpg'} // Fallback image
+                    />
+                  </td>
                   <td className="px-6 py-4 whitespace-nowrap">{reservation.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{reservation.type.name}</td>
                   <td className="px-6 py-4 whitespace-nowrap">{reservation.vechicle_number}</td>
@@ -291,6 +315,7 @@ const Reservation = () => {
               <form 
                 onSubmit={handleSubmit} 
                 className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4"
+                encType="multipart/form-data"
               >
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Name</label>
@@ -412,6 +437,24 @@ const Reservation = () => {
                     className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                     placeholder="Price"
                   />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Image</label>
+                  <input
+                    type="file"
+                    name="image"
+                    onChange={handleChange}
+                    accept="image/*"
+                    className="w-full p-2 border rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  />
+                  {editingId && reservations.find(r => r.id === editingId)?.image && (
+                    <img 
+                      src={`http://127.0.0.1:8000${reservations.find(r => r.id === editingId).image}`} 
+                      alt="Current"
+                      className="mt-2 w-24 h-24 object-cover rounded"
+                    />
+                  )}
                 </div>
 
                 <div className="sm:col-span-2 lg:col-span-3 flex gap-4 justify-end flex-col sm:flex-row">

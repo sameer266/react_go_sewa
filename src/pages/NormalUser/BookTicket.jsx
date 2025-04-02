@@ -3,10 +3,16 @@ import { FaBus, FaWifi, FaPlug, FaSnowflake, FaFan } from 'react-icons/fa';
 import { Link } from 'react-router-dom';
 import { AllScheduleApi } from '../../api/homeApi';
 import Loader from '../../components/Loader';
+import { Sidebar } from 'lucide-react';
+import { MenuLinks } from '../AdminDashboard/Link';
+
 export default function BookingTicket() {
   const [schedules, setSchedules] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [sidebarCollaspsed,setSidebarCollapsed]=useState(false);
+  
 
   useEffect(() => {
     const fetchSchedules = async () => {
@@ -63,6 +69,13 @@ export default function BookingTicket() {
 
   return (
     <div className="container mx-auto px-4 py-6 mt-16 mb-10">
+
+     {/* Sidebar */}
+      <Sidebar collapsed={sidebarCollaspsed}
+        setCollapsed={setSidebarCollapsed}
+        menuLink={MenuLinks}
+        className='fixed h-full transition-all duration-300'/>
+
       <h2 className="text-2xl font-bold text-center mb-6 text-green-800">
         Bus Schedules
       </h2>

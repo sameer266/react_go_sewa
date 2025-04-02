@@ -49,7 +49,7 @@ const UserProfileUpdateApi= async(data)=>{
 // ========= User Bookings  ============
 const UserBookingsApi = async ()=>{
     try {
-        const response = await api.get('api/user_bookings/')
+        const response = await api.get('api/user_booking_list/')
         return response.data;
         
     } catch (error) {
@@ -61,7 +61,7 @@ const UserBookingsApi = async ()=>{
 // =========== Users Payment History =========
 const UserPaymentHistoryApi = async ()=>{
     try {
-        const response = await api.get('api/payment_history')
+        const response = await api.get('api/payment_history/')
         return response.data;
     } catch (error) {
         console.log("error in fetching the payment hsitory")

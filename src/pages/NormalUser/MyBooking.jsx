@@ -13,6 +13,8 @@ import {
   ChevronRight
 } from 'lucide-react';
 import Loader from '../../components/Loader';
+import { MenuLinks } from '../AdminDashboard/Link';
+import { Sidebar } from 'lucide-react';
 
 function MyBooking() {
   const [bookings, setBookings] = useState([]);
@@ -21,6 +23,7 @@ function MyBooking() {
   const [filter, setFilter] = useState('all');
   const [sortConfig, setSortConfig] = useState({ key: 'booked_at', direction: 'desc' });
   const [currentPage, setCurrentPage] = useState(1);
+  const [sidebarCollapsed,setSidebarCollapsed] =useState(false);
   const itemsPerPage = 8;
 
   useEffect(() => {
@@ -120,6 +123,13 @@ function MyBooking() {
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 mt-20 mb-16">
+
+      <Sidebar  
+      collapsed={sidebarCollapsed}
+              setCollapsed={setSidebarCollapsed}
+              menuLink={MenuLinks || []}
+              className="fixed h-full transition-all duration-300"
+      />
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
         <h1 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
           <Ticket className="w-8 h-8 text-indigo-600" />
