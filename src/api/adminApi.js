@@ -9,7 +9,7 @@ const refreshToken = localStorage.getItem("refresh_token")
 
 const AdminDashboardApi=async ()=>{
     try {
-        const response = await api.get(`api/subadmin_dashboard/`)
+        const response = await api.get(`api/admin_dashboard/`)
         return response.data
     } catch (error) {
         console.log("error in fetching data ", error.response.data)

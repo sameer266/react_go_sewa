@@ -6,7 +6,7 @@ import { logout } from '../auth/authSlice';
 import { LogoutApi, NavAndContactApi } from '../api/homeApi';
 import Loader from './Loader';
 import toast, { Toaster } from 'react-hot-toast';
-
+import ImageBaseUrl, { Base_URL } from './ImageBaseUrl';
 export default function Navbar() {
   // State management
   const [navdata, setNavdata] = useState({});
@@ -14,6 +14,8 @@ export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [loading, setLoading] = useState(false);
   const menuRef = useRef(null);
+
+  
 
   // Hooks
   const location = useLocation();
@@ -154,9 +156,9 @@ export default function Navbar() {
             {/* Logo */}
             <Link to="/" className="flex items-center">
               <img
-                src={navdata.image ? `http://127.0.0.1:8000${navdata.image}` : ''}
+                src={`${Base_URL}${navdata.image}`}
                 alt="Go Sewa"
-                className="h-14 w-auto object-contain"
+                className="h-14 w-auto object-contain ml-14 sm:ml-10 md:ml-6"
               />
             </Link>
 

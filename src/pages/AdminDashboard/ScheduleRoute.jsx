@@ -391,7 +391,7 @@ const ScheduleRoute = () => {
 
           {showForm && (
             <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-              <div className="bg-white rounded-lg p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto">
+              <div className="bg-white rounded-lg p-6 w-full max-w-3xl max-h-[90vh] overflow-y-auto ml-14">
                 <div className="flex justify-between items-center mb-6">
                   <h2 className="text-lg md:text-xl font-bold">{selectedSchedule ? 'Edit Schedule' : 'Add New Schedule'}</h2>
                   <button onClick={() => setShowForm(false)} className="text-gray-500 hover:text-gray-700">

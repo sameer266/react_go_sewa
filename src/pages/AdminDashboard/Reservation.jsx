@@ -291,7 +291,7 @@ const Reservation = () => {
   );
 
   return (
-    <div className="mt-20 flex h-screen overflow-hidden">
+    <div className="mt-20 mb-16 flex h-screen overflow-hidden">
       {/* Sidebar */}
       <Sidebar
         collapsed={sidebarCollapsed}

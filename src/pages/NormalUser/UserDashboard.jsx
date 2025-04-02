@@ -17,7 +17,7 @@ import {
 } from 'lucide-react';
 import Sidebar from '../../components/SideBar';
 import Loader from '../../components/Loader';
-import { AdminDashboardApi } from '../../api/adminApi';
+import { UserDashboardAPi } from '../../api/userApi';
 import { ResetPasswordApi } from '../../api/homeApi';
 import { MenuLinks } from '../AdminDashboard/Link';
 
@@ -32,7 +32,7 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await AdminDashboardApi();
+        const response = await UserDashboardAPi();
         if (response?.success) {
           setDashboardData(response);
         } else {

@@ -154,9 +154,10 @@ const BookingManagement = () => {
 
   return (
     <>
-      <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} menuLink={MenuLinks || []} />
+      
     
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen mt-6">
+      <Sidebar collapsed={sidebarCollapsed} setCollapsed={setSidebarCollapsed} menuLink={MenuLinks || []} />
         <div
           className={`flex-1 transition-all duration-300 ${
             sidebarCollapsed ? "ml-20" : "ml-64"

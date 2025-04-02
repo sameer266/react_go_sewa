@@ -467,131 +467,135 @@ function DriverStaff() {
                 )}
               </div>
 
-              {/* Modal */}
-              {modalOpen && currentItem && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-                  <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto">
-                    <div className="p-6 border-b flex justify-between items-center">
-                      <h2 className="text-xl font-semibold text-blue-700">
-                        {modalMode === 'edit'
-                          ? (currentItem.type === 'staff' ? 'Edit Staff' : 'Edit Driver')
-                          : (currentItem.type === 'staff' ? 'Add Staff' : 'Add Driver')}
-                      </h2>
-                      <button
-                        onClick={closeModal}
-                        className="text-gray-500 hover:text-gray-700 transition-all"
-                      >
-                        <X size={24} />
-                      </button>
-                    </div>
+             {/* Modal */}
+{modalOpen && currentItem && (
+  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto ml-16">
+      <div className="p-4 sm:p-6 border-b flex justify-between items-center">
+        <h2 className="text-lg sm:text-xl font-semibold text-blue-700">
+          {modalMode === 'edit'
+            ? (currentItem.type === 'staff' ? 'Edit Staff' : 'Edit Driver')
+            : (currentItem.type === 'staff' ? 'Add Staff' : 'Add Driver')}
+        </h2>
+        <button
+          onClick={closeModal}
+          className="text-gray-500 hover:text-gray-700 transition-all"
+        >
+          <X size={24} />
+        </button>
+      </div>
 
-                    <form onSubmit={handleSubmit} className="p-6 space-y-6">
-                      <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-2">
-                          Profile Image (Optional)
-                        </label>
-                        <div className="flex items-center gap-4">
-                          <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-                            {imagePreview ? (
-                              <img
-                                src={imagePreview}
-                                alt="Profile Preview"
-                                className="w-full h-full object-cover"
-                              />
-                            ) : (
-                              <User size={30} className="text-gray-400" />
-                            )}
-                          </div>
-                          <label className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg flex items-center gap-2 transition-all">
-                            <Upload size={18} /> Upload Image
-                            <input
-                              type="file"
-                              className="hidden"
-                              accept="image/*"
-                              onChange={(e) => handleImageChange(e, 'profile')}
-                            />
-                          </label>
-                        </div>
-                      </div>
+      <form onSubmit={handleSubmit} className="p-4 sm:p-6 space-y-4 sm:space-y-6">
+        {error && (
+          <div className="text-red-600 bg-red-50 p-3 rounded-lg text-sm">{error}</div>
+        )}
 
-                      {currentItem.type === 'driver' && (
-                        <div>
-                          <label className="block text-gray-700 text-sm font-medium mb-2">
-                            License Image (Optional)
-                          </label>
-                          <div className="flex items-center gap-4">
-                            <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
-                              {licensePreview ? (
-                                <img
-                                  src={licensePreview}
-                                  alt="License Preview"
-                                  className="w-full h-full object-cover"
-                                />
-                              ) : (
-                                <Car size={30} className="text-gray-400" />
-                              )}
-                            </div>
-                            <label className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg flex items-center gap-2 transition-all">
-                              <Upload size={18} /> Upload License
-                              <input
-                                type="file"
-                                className="hidden"
-                                accept="image/*"
-                                onChange={(e) => handleImageChange(e, 'license')}
-                              />
-                            </label>
-                          </div>
-                        </div>
-                      )}
-
-                      <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-2">
-                          Full Name <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={currentItem.full_name || ''}
-                          onChange={(e) => setCurrentItem({ ...currentItem, full_name: e.target.value })}
-                          className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          required
-                        />
-                      </div>
-
-                      <div>
-                        <label className="block text-gray-700 text-sm font-medium mb-2">
-                          Phone Number (10-digit Nepal) <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          value={currentItem.phone_number || ''}
-                          onChange={(e) => setCurrentItem({ ...currentItem, phone_number: e.target.value })}
-                          className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                          required
-                          maxLength={10}
-                          placeholder="e.g., 98XXXXXXXX"
-                        />
-                      </div>
-
-                      <div className="flex justify-end gap-3">
-                        <button
-                          type="button"
-                          onClick={closeModal}
-                          className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all"
-                        >
-                          Cancel
-                        </button>
-                        <button
-                          type="submit"
-                          className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
-                          disabled={loading}
-                        >
-                          {loading ? 'Processing...' : (modalMode === 'edit' ? 'Save Changes' : 'Add')}
-                        </button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
+        <div>
+          <label className="block text-gray-700 text-sm font-medium mb-2">
+            Profile Image (Optional)
+          </label>
+          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+            <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+              {imagePreview ? (
+                <img
+                  src={imagePreview}
+                  alt="Profile Preview"
+                  className="w-full h-full object-cover"
+                />
+              ) : (
+                <User size={30} className="text-gray-400" />
               )}
+            </div>
+            <label className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg flex items-center gap-2 transition-all">
+              <Upload size={18} /> Upload Image
+              <input
+                type="file"
+                className="hidden"
+                accept="image/*"
+                onChange={(e) => handleImageChange(e, 'profile')}
+              />
+            </label>
+          </div>
+        </div>
+
+        {currentItem.type === 'driver' && (
+          <div>
+            <label className="block text-gray-700 text-sm font-medium mb-2">
+              License Image (Optional)
+            </label>
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+              <div className="w-20 h-20 bg-gray-100 rounded-lg overflow-hidden flex items-center justify-center">
+                {licensePreview ? (
+                  <img
+                    src={licensePreview}
+                    alt="License Preview"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Car size={30} className="text-gray-400" />
+                )}
+              </div>
+              <label className="cursor-pointer bg-blue-50 hover:bg-blue-100 text-blue-600 py-2 px-4 rounded-lg flex items-center gap-2 transition-all">
+                <Upload size={18} /> Upload License
+                <input
+                  type="file"
+                  className="hidden"
+                  accept="image/*"
+                  onChange={(e) => handleImageChange(e, 'license')}
+                />
+              </label>
+            </div>
+          </div>
+        )}
+
+        <div>
+          <label className="block text-gray-700 text-sm font-medium mb-2">
+            Full Name <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={currentItem.full_name || ''}
+            onChange={(e) => setCurrentItem({ ...currentItem, full_name: e.target.value })}
+            className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required
+          />
+        </div>
+
+        <div>
+          <label className="block text-gray-700 text-sm font-medium mb-2">
+            Phone Number (10-digit Nepal) <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={currentItem.phone_number || ''}
+            onChange={(e) => setCurrentItem({ ...currentItem, phone_number: e.target.value })}
+            className="w-full p-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            required
+            maxLength={10}
+            placeholder="e.g., 98XXXXXXXX"
+          />
+        </div>
+
+        <div className="flex justify-end gap-3 pt-2">
+          <button
+            type="button"
+            onClick={closeModal}
+            className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300 transition-all"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-all"
+            disabled={loading}
+          >
+            {loading ? 'Processing...' : (modalMode === 'edit' ? 'Save Changes' : 'Add')}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+)}
             </div>
           </div>
         </div>
